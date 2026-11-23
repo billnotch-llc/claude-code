@@ -1,0 +1,15 @@
+{
+  "name": "billnotch",
+  "description": "The official BillNotch plugin for Claude Code: time tracking, timesheets and invoice drafts.",
+  "owner": {
+    "name": "BillNotch",
+    "email": "support@billnotch.com"
+  },
+  "plugins": [
+    {
+      "name": "billnotch",
+      "source": "./billnotch",
+      "description": "Track, report and invoice your time in BillNotch without leaving Claude Code."
+    }
+  ]
+}
