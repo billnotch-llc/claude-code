@@ -16,8 +16,10 @@ Inside Claude Code:
 ```
 
 Claude Code then asks for a **BillNotch key**. Create one in BillNotch under Settings,
-Devices, Connect Claude Code. The key acts with your own BillNotch permissions and can be
-revoked at any time under API keys.
+Devices, Connect Claude Code. The key acts with your own BillNotch permissions, expires
+after a year, and can be revoked at any time under API keys. When it expires, generate a
+new one and run `/plugin configure billnotch@billnotch`. Tracked sessions are kept on
+disk for 30 days and upload once the new key is in place.
 
 ## What you get
 
@@ -45,6 +47,10 @@ to BillNotch as time entries named `Claude Code: <folder> (<branch>)`.
   cutoff (5 minutes by default). A whole turn counts, however long Claude works.
 - Blocks shorter than a minute are dropped.
 - Uploads are idempotent and retried, so a crash or an offline spell never double counts.
+- A session that crashed mid-turn is closed at the last moment known to be work, so
+  resuming it later never bills the time it was closed.
+- Linking or unlinking a repository mid-session splits the block: earlier time keeps its
+  project. A block whose linked project was deleted still uploads, uncategorized.
 - **Only the folder name, the git branch and timestamps are sent.** Prompts, code, file
   names and the conversation never leave your machine.
 
@@ -73,6 +79,7 @@ Bash. The skills and tools need nothing beyond Claude Code.
 ```sh
 claude plugin validate billnotch
 claude --plugin-dir billnotch
+bun test test   # tracker behaviour, against a fake API
 ```
 
 Point the API URL option at `http://localhost:3001` to work against a local API.

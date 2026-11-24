@@ -1,0 +1,52 @@
+{
+  "name": "billnotch",
+  "displayName": "BillNotch",
+  "version": "0.1.0",
+  "description": "Track, report and invoice your time in BillNotch without leaving Claude Code. Sessions are logged automatically; skills cover logging time, timesheets, invoice drafts and cleaning up uncategorized hours.",
+  "author": {
+    "name": "BillNotch",
+    "email": "support@billnotch.com",
+    "url": "https://billnotch.com"
+  },
+  "homepage": "https://billnotch.com",
+  "privacyPolicyUrl": "https://billnotch.com/privacy",
+  "keywords": ["time-tracking", "invoicing", "timesheet", "billing", "freelance"],
+  "userConfig": {
+    "api_key": {
+      "type": "string",
+      "title": "BillNotch key",
+      "description": "A Claude Code key from BillNotch: Settings, Devices, Connect Claude Code. Starts with tt_.",
+      "required": true,
+      "sensitive": true
+    },
+    "api_url": {
+      "type": "string",
+      "title": "API URL",
+      "description": "Leave as is",
+      "default": "https://api.billnotch.com"
+    },
+    "auto_track": {
+      "type": "boolean",
+      "title": "Track Claude Code sessions automatically",
+      "description": "Logs the time you spend working with Claude Code as time entries. Only the folder name and git branch are sent, never prompts, code or file names.",
+      "default": true
+    },
+    "idle_minutes": {
+      "type": "number",
+      "title": "Idle cutoff (minutes)",
+      "description": "A gap longer than this between prompts ends the current block of tracked time.",
+      "default": 5,
+      "min": 1,
+      "max": 60
+    }
+  },
+  "mcpServers": {
+    "billnotch": {
+      "type": "http",
+      "url": "${user_config.api_url}/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.api_key}"
+      }
+    }
+  }
+}
